@@ -16,6 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from apisAPP import views as v
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('populate-apis/', v.createDatabase.as_view(), name='populate-apis'),
+    path('keyword/', v.searchByKeyword.as_view(), name='keyword'),
 ]
