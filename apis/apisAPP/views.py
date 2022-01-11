@@ -21,11 +21,56 @@ class createDatabase(APIView):
     def get(self, request):
         return HttpResponseNotFound("You must use POST in order to trigger this function")
 
-class searchByKeyword(APIView):
+
+class searchByAPIKeyword(APIView):
     def post(self, request):
-        letter = request.data['keyword']
-        entries = Entry.objects.filter(api__startswith=letter).values()
-        return JsonResponse({"data": list(entries)})
+        try:
+            letter = request.data['keyword']
+            entries = Entry.objects.filter(api__startswith=letter).values()
+            return JsonResponse({"data": list(entries)})
+        except:
+           return JsonResponse({"error": "something went wrong"})
+
+    def get(self, request):
+        return HttpResponseNotFound("You must use POST in order to get the data")
+
+
+class searchByCategory(APIView):
+    def post(self, request):
+        try:
+            category = request.data['category']
+            entries = Entry.objects.filter(category=category).values()
+            return JsonResponse({"data": list(entries)})
+        except:
+           return JsonResponse({"error": "something went wrong"}) 
+
+    def get(self, request):
+        return HttpResponseNotFound("You must use POST in order to get the data")
+
+
+class getOrderedEntries(APIView):
+    def post(self, request):
+        try:
+            entries = Entry.objects.order_by('id').values()
+            return JsonResponse({"data": list(entries)})
+        except:
+           return JsonResponse({"error": "something went wrong"}) 
+
+    def get(self, request):
+        return HttpResponseNotFound("You must use POST in order to get the data")
+
+
+class getByID(APIView):
+    def post(self, request):
+        try:
+            pk = request.data['pk']
+            entry = Entry.objects.get(id=pk)
+            jsonEntry = serializers.serialize('python', [ entry, ])
+            return JsonResponse({"data": jsonEntry})
+            
+        except:
+           return JsonResponse({"error": "something went wrong"}) 
+
 
     def get(self, request):
         return HttpResponseNotFound("You must use POST in order to get the data")

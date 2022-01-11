@@ -21,6 +21,9 @@ from apisAPP import views as v
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('populate-apis/', v.createDatabase.as_view(), name='populate-apis'),
-    path('keyword/', v.searchByKeyword.as_view(), name='keyword'),
+    path('populate-apis/', v.createDatabase.as_view(), name='populateApis'),
+    path('keyword/', v.searchByAPIKeyword.as_view(), name='keyword'),
+    path('category/', v.searchByCategory.as_view(), name='category'),
+    path('ordered-list/', v.getOrderedEntries.as_view(), name='orderedList'),
+    path('item/', v.getByID.as_view(), name='item'),
 ]

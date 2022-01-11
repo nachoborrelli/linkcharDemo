@@ -20,8 +20,8 @@ def save_data():
         data = get_data("https://api.publicapis.org/entries")
         for entry in data["entries"]:
             a_entry_creation.delay(entry)
-            
-        return "Celery has load everything"
+
+        return "Everything has been loaded on the database!"
 
     except:
         return "Something went wrong..."
