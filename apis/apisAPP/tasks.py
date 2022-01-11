@@ -16,11 +16,15 @@ def get_data(url):
 
 
 def save_data():
+    try:
         data = get_data("https://api.publicapis.org/entries")
         for entry in data["entries"]:
             a_entry_creation.delay(entry)
-
+            
         return "Celery has load everything"
+
+    except:
+        return "Something went wrong..."
 
 @shared_task(bind=True, track_started=True)
 def a_entry_creation(self, entry):
